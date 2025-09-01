@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Neocities + API</title>
-</head>
-<body>
-  <h1>Тест внешнего API</h1>
-  <button id="load">Загрузить данные</button>
-  <pre id="out"></pre>
+// server.js
+import express from "express";
+import cors from "cors";
 
-  <script>
-    document.getElementById("load").addEventListener("click", async () => {
-      try {
-        const res = await fetch("https://myapi.onrender.com/data");
-        const json = await res.json();
-        document.getElementById("out").textContent = JSON.stringify(json, null, 2);
-      } catch (err) {
-        console.error(err);
-        document.getElementById("out").textContent = "Ошибка: " + err;
-      }
-    });
-  </script>
-</body>
-</html>
+const app = express();
+app.use(cors()); // Разрешаем всем доменам, можно ограничить
+
+app.get("/data", (req, res) => {
+  res.json({ message: "Привет с сервера!", time: new Date() });
+});
+
+app.listen(3000, () => console.log("API запущен на http://localhost:3000"));
